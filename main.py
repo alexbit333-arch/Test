@@ -1,11 +1,12 @@
 import requests
-from telegram.ext import Updater, MessageHandler, Filters
+from telegram import Update
+from telegram.ext import ApplicationBuilder, MessageHandler, ContextTypes, filters
 
 TELEGRAM_TOKEN = "8717329314:AAGo2P9dXE6WT4xygLrrzK-pAytT0Ix-_eM"
 GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzecpCxyABxFy6H4A76BjK-fnQe2Tj6HbJRh55juHRqfz2OcdJ4ZdkMms_oP2xfhkvOfw/exec"
 
-def handle_message(update, context):
-    user = update.message.from_user
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
     text = update.message.text
 
     data = {
@@ -16,20 +17,18 @@ def handle_message(update, context):
 
     try:
         requests.post(GOOGLE_SCRIPT_URL, json=data)
-        update.message.reply_text("✅ Записано в таблицю")
+        await update.message.reply_text("✅ Записано в таблицю")
     except Exception as e:
-        update.message.reply_text("❌ Помилка")
+        await update.message.reply_text("❌ Помилка")
         print(e)
 
 def main():
-    updater = Updater(TELEGRAM_TOKEN, use_context=True)
-    dp = updater.dispatcher
+    app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
 
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     print("Бот запущений...")
-    updater.start_polling()
-    updater.idle()
+    app.run_polling()
 
 if __name__ == "__main__":
     main()
