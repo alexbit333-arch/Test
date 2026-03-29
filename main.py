@@ -1,4 +1,5 @@
 import requests
+import json
 
 BOT_TOKEN = "8717329314:AAGo2P9dXE6WT4xygLrrzK-pAytT0Ix-_eM"
 GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZXJL0PKIGnwsmRtbRi8kIVvmP0GBGrvQA0msZTgzTgOR3qBsyFqWJ_gC8cs9JIYQV3w/exec"
@@ -50,8 +51,17 @@ def main():
             }
 
             try:
-                requests.post(GOOGLE_SCRIPT_URL, json=payload)
+                # 🔥 ОЦЕ КЛЮЧОВЕ ВИПРАВЛЕННЯ
+                response = requests.post(
+                    GOOGLE_SCRIPT_URL,
+                    data=json.dumps(payload),
+                    headers={"Content-Type": "application/json"}
+                )
+
+                print("GS response:", response.text)
+
                 send_message(chat_id, "✅ Записано в таблицю")
+
             except Exception as e:
                 print("Error:", e)
                 send_message(chat_id, "❌ Помилка")
