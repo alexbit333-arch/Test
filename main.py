@@ -1,7 +1,7 @@
 import requests
 
 BOT_TOKEN = "8717329314:AAGo2P9dXE6WT4xygLrrzK-pAytT0Ix-_eM"
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzecpCxyABxFy6H4A76BjK-fnQe2Tj6HbJRh55juHRqfz2OcdJ4ZdkMms_oP2xfhkvOfw/exec"
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzke2Bgmq_kS0DBOnnVL1S4YnDCypufVf2WOrZxLgVCmonsb1sN76nuT2ibxs843jrJ3A/exec"
 
 def send_message(chat_id, text):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
